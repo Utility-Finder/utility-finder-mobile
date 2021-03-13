@@ -2,15 +2,14 @@
 
 Utility Finder mobile client
 
-## Getting Started
+## Setup
 
-This project is a starting point for a Flutter application.
+Get a Google Maps API key and it to `android/local.properties` as `google.maps.key`.
 
-A few resources to get you started if this is your first Flutter project:
+## Development
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+Start Android emulator of choice.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Build and run app with:
+
+    flutter run
