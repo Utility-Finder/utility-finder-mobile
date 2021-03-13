@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart' as DotEnv;
+import 'package:utility_finder/screens/Home/home.dart';
 
 Future main() async {
   await DotEnv.load(fileName: ".env");
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: Text("Utility Finder"),
         ),
-        body: Text(DotEnv.env['API_URL']),
+        body: HomeScreen(),
       ),
     );
   }

@@ -4,15 +4,22 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:utility_finder/models/utility.dart';
 
+// TODO: replace http with https
+
 // Fetches list of nearby utilities
 Future<List<Utility>> fetchUtilities(
     double lat, double lon, double radius) async {
-  var apiURL = env['API_URL'];
-  http.Response response =
-      await http.get(Uri.parse("$apiURL/list?lat=$lon&radius=$radius"));
+  http.Response response = await http.get(Uri.http(env['API_URL'], '/list', {
+    "lat": lat.toString(),
+    "lon": lon.toString(),
+    "radius": radius.toString()
+  }));
 
-  Map<String, dynamic> data = jsonDecode(response.body);
-  var list = data as List;
-  List<Utility> utilities = list.map((e) => Utility.fromJson(e)).toList();
+  if (response.statusCode != 200) {
+    throw Exception('Failed to load utilities');
+  }
+
+  List<dynamic> data = jsonDecode(response.body);
+  List<Utility> utilities = data.map((e) => Utility.fromJson(e)).toList();
   return utilities;
 }
