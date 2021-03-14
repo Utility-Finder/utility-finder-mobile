@@ -4,7 +4,7 @@ Utility Finder mobile client
 
 ## Setup
 
-Get a Google Maps API key and it to `android/local.properties` as `google.maps.key`.
+Get a Google Maps API key and it to `android/local.properties` as `google.map.key`.
 
 ## Development
 

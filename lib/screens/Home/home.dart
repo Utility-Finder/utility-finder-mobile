@@ -35,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
             markerId: MarkerId(utility.id),
             position: LatLng(utility.lat, utility.lon),
             infoWindow: InfoWindow(
-              title: utility.description,
+              title: utility.rating.toString(),
               snippet: utility.description,
             ),
           );
