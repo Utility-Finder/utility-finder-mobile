@@ -37,8 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
               title: utility.rating.toString(),
               snippet: utility.description,
               onTap: () {
-                // TODO: go to info screen
-                print(utility.description);
+                Navigator.pushNamed(context, '/details', arguments: utility);
               }),
           icon: await getIconFromNetwork(utility.imageURL),
         );
@@ -71,8 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: ElevatedButton(
                 child: Text('+ Add'),
                 onPressed: () {
-                  // TODO: add utility
-                  print('add');
+                  Navigator.pushNamed(context, '/submit');
                 },
               ),
             ),

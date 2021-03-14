@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart' as DotEnv;
 import 'package:utility_finder/screens/Home/home.dart';
-import 'package:utility_finder/screens/SubmitUtility/submit_utility.dart';
+import 'package:utility_finder/screens/UtilityDetails/utility_details.dart';
+import 'package:utility_finder/screens/UtilitySubmit/utility_submit.dart';
 
 Future main() async {
   await DotEnv.load(fileName: ".env");
@@ -16,6 +18,21 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      onGenerateRoute: (RouteSettings settings) {
+        switch (settings.name) {
+          case '/submit':
+            return CupertinoPageRoute(
+                builder: (context) => UtilitySubmitScreen(),
+                settings: settings);
+          case '/details':
+            return CupertinoPageRoute(
+                builder: (context) => UtilityDetailsScreen(),
+                settings: settings);
+          case '/':
+            return CupertinoPageRoute(
+                builder: (context) => HomeScreen(), settings: settings);
+        }
+      },
       home: Scaffold(
         appBar: AppBar(
           title: Text("Utility Finder"),
