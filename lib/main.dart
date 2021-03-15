@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart' as DotEnv;
 import 'package:utility_finder/screens/Home/home.dart';
 import 'package:utility_finder/screens/UtilityDetails/utility_details.dart';
@@ -7,13 +8,9 @@ import 'package:utility_finder/screens/UtilitySubmit/utility_submit.dart';
 
 Future main() async {
   await DotEnv.load(fileName: ".env");
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  runApp(
+    MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -26,9 +23,9 @@ class MyApp extends StatelessWidget {
                 settings: settings);
           case '/details':
             return CupertinoPageRoute(
-                builder: (context) => UtilityDetailsScreen(),
+                builder: (context) => UtilityDetailsScreen(prefs: prefs),
                 settings: settings);
-          case '/':
+          default:
             return CupertinoPageRoute(
                 builder: (context) => HomeScreen(), settings: settings);
         }
@@ -39,6 +36,6 @@ class MyApp extends StatelessWidget {
         ),
         body: HomeScreen(),
       ),
-    );
-  }
+    ),
+  );
 }
