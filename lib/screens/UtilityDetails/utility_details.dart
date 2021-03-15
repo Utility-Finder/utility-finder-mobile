@@ -23,6 +23,34 @@ class _UtilityDetailsScreen extends State<UtilityDetailsScreen> {
     _prefs = widget.prefs;
   }
 
+  AlertDialog getSuccessDialog(BuildContext context) {
+    return AlertDialog(
+      content: Text("Thank you for your feedback!"),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: Text("OK"),
+        ),
+      ],
+    );
+  }
+
+  AlertDialog getErrorDialog(BuildContext context) {
+    return AlertDialog(
+      content: Text("An error has occured."),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: Text("OK"),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final Utility utility = ModalRoute.of(context).settings.arguments;
@@ -123,32 +151,4 @@ class _UtilityDetailsScreen extends State<UtilityDetailsScreen> {
       ),
     );
   }
-}
-
-AlertDialog getSuccessDialog(BuildContext context) {
-  return AlertDialog(
-    content: Text("Thank you for your feedback!"),
-    actions: [
-      TextButton(
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-        child: Text("OK"),
-      ),
-    ],
-  );
-}
-
-AlertDialog getErrorDialog(BuildContext context) {
-  return AlertDialog(
-    content: Text("An error has occured."),
-    actions: [
-      TextButton(
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-        child: Text("OK"),
-      ),
-    ],
-  );
 }
