@@ -30,12 +30,7 @@ Future main() async {
                 builder: (context) => HomeScreen(), settings: settings);
         }
       },
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("Utility Finder"),
-        ),
-        body: HomeScreen(),
-      ),
+      home: HomeScreen(),
     ),
   );
 }

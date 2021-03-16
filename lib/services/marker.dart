@@ -28,7 +28,6 @@ Future<BitmapDescriptor> createIconFromNetwork(
     center: im.Point(img.width ~/ 2, img.height ~/ 2),
   );
 
-  print(color.toString());
   // Re-color base
   var base = im.decodeImage(markerBaseBytes);
   color = color ?? Colors.black;

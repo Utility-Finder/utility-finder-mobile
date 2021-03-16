@@ -82,31 +82,29 @@ class _UtilitySubmitScreen extends State<UtilitySubmitScreen> {
           ),
           Padding(
             padding: EdgeInsets.all(20),
-            child: Expanded(
-              child: ElevatedButton(
-                onPressed: () async {
-                  var alertDialog;
-                  try {
-                    // TODO: find user gps coords
-                    await postUtility(0, 0, _description, image.path);
-                    alertDialog = getSuccessDialog(context);
-                  } catch (e) {
-                    alertDialog = getErrorDialog(context);
-                  }
+            child: ElevatedButton(
+              onPressed: () async {
+                var alertDialog;
+                try {
+                  // TODO: find user gps coords
+                  await postUtility(0, 0, _description, image.path);
+                  alertDialog = getSuccessDialog(context);
+                } catch (e) {
+                  alertDialog = getErrorDialog(context);
+                }
 
-                  showGeneralDialog(
-                    barrierLabel: 'Label',
-                    barrierDismissible: true,
-                    barrierColor: Colors.black.withOpacity(0.5),
-                    transitionDuration: Duration(milliseconds: 300),
-                    context: context,
-                    pageBuilder: (context, anim1, anim2) {
-                      return alertDialog;
-                    },
-                  );
-                },
-                child: Text('Submit'),
-              ),
+                showGeneralDialog(
+                  barrierLabel: 'Label',
+                  barrierDismissible: true,
+                  barrierColor: Colors.black.withOpacity(0.5),
+                  transitionDuration: Duration(milliseconds: 300),
+                  context: context,
+                  pageBuilder: (context, anim1, anim2) {
+                    return alertDialog;
+                  },
+                );
+              },
+              child: Text('Submit'),
             ),
           ),
         ],
