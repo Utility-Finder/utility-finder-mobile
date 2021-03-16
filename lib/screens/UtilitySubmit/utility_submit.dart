@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:utility_finder/services/api.dart';
 
@@ -43,7 +44,9 @@ class _UtilitySubmitScreen extends State<UtilitySubmitScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final File image = ModalRoute.of(context).settings.arguments;
+    final Map<String, dynamic> args = ModalRoute.of(context).settings.arguments;
+    final File image = args['image'];
+    final Position currentPosition = args['position'];
 
     return Scaffold(
       appBar: AppBar(
@@ -86,8 +89,12 @@ class _UtilitySubmitScreen extends State<UtilitySubmitScreen> {
               onPressed: () async {
                 var alertDialog;
                 try {
-                  // TODO: find user gps coords
-                  await postUtility(0, 0, _description, image.path);
+                  await postUtility(
+                    currentPosition.latitude,
+                    currentPosition.longitude,
+                    _description,
+                    image.path,
+                  );
                   alertDialog = getSuccessDialog(context);
                 } catch (e) {
                   alertDialog = getErrorDialog(context);

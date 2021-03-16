@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -22,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final LatLng _center = const LatLng(38.893452, -77.014709);
   final Map<String, Marker> _markers = {};
   Position _currentPosition;
+  StreamSubscription<Position> _positionStream;
   bool _isLocationEnabled = false;
   bool _isMarkersInit = false;
 
@@ -80,6 +82,19 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget renderLocationEnabled(BuildContext context) {
     // Init markers
     if (!_isMarkersInit) {
+      // Update markers on location changes
+      _positionStream = Geolocator.getPositionStream(
+        distanceFilter: 1,
+      ).listen((position) async {
+        _currentPosition = position;
+        var markers = await getMarkers(_currentPosition);
+        setState(() {
+          _markers.clear();
+          _markers.addAll(markers);
+        });
+      });
+
+      // Fetch initial markers
       getMarkers(_currentPosition).then((markers) {
         setState(() {
           _markers.clear();
@@ -88,6 +103,8 @@ class _HomeScreenState extends State<HomeScreen> {
       }).catchError((e) {
         print(e.toString());
       });
+
+      _isMarkersInit = true;
     }
 
     return Stack(
@@ -95,7 +112,10 @@ class _HomeScreenState extends State<HomeScreen> {
         GoogleMap(
           onMapCreated: _onMapCreated,
           initialCameraPosition: CameraPosition(
-            target: _center,
+            target: LatLng(
+              _currentPosition.latitude,
+              _currentPosition.longitude,
+            ),
             zoom: 11.0,
           ),
           myLocationEnabled: _isLocationEnabled,
@@ -113,7 +133,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     await picker.getImage(source: ImageSource.camera);
                 if (pickedFile != null) {
                   var image = File(pickedFile.path);
-                  Navigator.pushNamed(context, '/submit', arguments: image);
+                  Navigator.pushNamed(context, '/submit', arguments: {
+                    'image': image,
+                    'position': _currentPosition,
+                  });
                 }
               },
             ),
@@ -124,8 +147,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget renderLocationNotEnabled(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () async {
+    return GestureDetector(
+      onTap: () async {
         try {
           Position pos = await getCurrentPosition();
           setState(() {
@@ -136,7 +159,28 @@ class _HomeScreenState extends State<HomeScreen> {
           print(e.toString());
         }
       },
-      child: Text('Enable location services'),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.location_on,
+              size: 80,
+              color: Colors.black45,
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 10),
+              child: Text(
+                'Enable Location Services',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.black45,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
