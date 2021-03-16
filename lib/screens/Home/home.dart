@@ -20,6 +20,12 @@ class _HomeScreenState extends State<HomeScreen> {
   final LatLng _center = const LatLng(38.893452, -77.014709);
   final Map<String, Marker> _markers = {};
 
+  final Map<int, Color> _markerColors = {
+    0: Colors.cyan[200],
+    1: Colors.orange[600],
+    2: Colors.green[700],
+  };
+
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
   }
@@ -39,7 +45,10 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () {
                 Navigator.pushNamed(context, '/details', arguments: utility);
               }),
-          icon: await getIconFromNetwork(utility.imageURL),
+          icon: await createIconFromNetwork(
+            utility.imageURL,
+            _markerColors[utility.type] ?? Colors.black,
+          ),
         );
         markers[utility.id] = marker;
       }
