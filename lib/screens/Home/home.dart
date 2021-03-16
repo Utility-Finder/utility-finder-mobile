@@ -1,7 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:utility_finder/models/utility.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:utility_finder/services/api.dart';
 import 'package:utility_finder/services/marker.dart';
 
@@ -25,6 +26,9 @@ class _HomeScreenState extends State<HomeScreen> {
     1: Colors.orange[600],
     2: Colors.green[700],
   };
+
+  File _image;
+  final picker = ImagePicker();
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -78,8 +82,13 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Center(
               child: ElevatedButton(
                 child: Text('+ Add'),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/submit');
+                onPressed: () async {
+                  final pickedFile =
+                      await picker.getImage(source: ImageSource.camera);
+                  if (pickedFile != null) {
+                    var image = File(pickedFile.path);
+                    Navigator.pushNamed(context, '/submit', arguments: image);
+                  }
                 },
               ),
             ),

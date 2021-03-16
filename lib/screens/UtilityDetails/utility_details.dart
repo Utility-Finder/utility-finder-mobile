@@ -62,6 +62,7 @@ class _UtilityDetailsScreen extends State<UtilityDetailsScreen> {
         title: Text("Details"),
       ),
       body: ListView(
+        physics: BouncingScrollPhysics(),
         children: [
           Center(
             child: Column(
