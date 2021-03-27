@@ -23,10 +23,10 @@ class Utility {
       id: json['id'],
       type: json['type'],
       imageURL: json['imageURL'],
-      lat: json['lat'],
-      lon: json['lon'],
+      lat: double.parse(json['lat'].toString()),
+      lon: double.parse(json['lon'].toString()),
       description: json['description'],
-      rating: json['rating'],
+      rating: double.parse(json['rating'].toString()),
     );
   }
 }

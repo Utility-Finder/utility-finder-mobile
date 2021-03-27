@@ -4,12 +4,12 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:utility_finder/models/utility.dart';
 
-// TODO: replace http with https
+// TODO: fix crash on http timeout
 
 // Fetches list of nearby utilities
 Future<List<Utility>> fetchUtilities(
     double lat, double lon, double radius) async {
-  http.Response response = await http.get(Uri.http(env['API_URL'], '/list', {
+  http.Response response = await http.get(Uri.https(env['API_URL'], '/list', {
     "lat": lat.toString(),
     "lon": lon.toString(),
     "radius": radius.toString()
@@ -27,7 +27,7 @@ Future<List<Utility>> fetchUtilities(
 // Fetches utility by id
 Future<Utility> fetchUtilityByID(String id) async {
   http.Response response = await http.get(
-    Uri.http(env['API_URL'], '/utility$id'),
+    Uri.https(env['API_URL'], '/utility$id'),
   );
 
   if (response.statusCode != 200) {
@@ -42,7 +42,7 @@ Future<Utility> fetchUtilityByID(String id) async {
 // Post utility entry
 Future<void> postUtility(
     double lat, double lon, String description, String filePath) async {
-  var uri = Uri.http(env['API_URL'], '/utility');
+  var uri = Uri.https(env['API_URL'], '/utility');
   var request = http.MultipartRequest('POST', uri)
     ..fields['lat'] = lat.toString()
     ..fields['lon'] = lon.toString()
@@ -60,7 +60,7 @@ Future<void> postUtility(
 Future<void> updateUtility(Utility utility) async {
   var id = utility.id;
   http.Response response = await http.post(
-    Uri.http(env['API_URL'], '/utility/$id'),
+    Uri.https(env['API_URL'], '/utility/$id'),
     body: {
       'description': utility.description,
     },
@@ -75,7 +75,7 @@ Future<void> updateUtility(Utility utility) async {
 Future<void> rateUtility(Utility utility, int rating) async {
   var id = utility.id;
   http.Response response = await http.post(
-    Uri.http(env['API_URL'], '/utility/$id/rate'),
+    Uri.https(env['API_URL'], '/utility/$id/rate'),
     body: {
       'rating': utility.description,
     },
